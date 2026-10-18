@@ -20,7 +20,7 @@ Kelompok-UTS-Blockchain/
 > Sesuaikan dengan struktur folder asli repo.
 
 ## Isi Singkat
-[Jelaskan proyek dalam 1-2 kalimat, misalnya: aplikasi voting berbasis smart contract Ethereum.]
+[Beisi projek ComputerLedgerSol Smart Contract]
 
 ## Cara Menjalankan
 1. Clone repo: `git clone https://github.com/KaelWindpaw/Kelompok-UTS-Blockchain.git`
