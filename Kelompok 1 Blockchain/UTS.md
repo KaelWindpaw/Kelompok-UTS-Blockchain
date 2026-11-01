@@ -171,7 +171,7 @@ Dengan event ini, setiap perubahan stok dan harga tercatat di logs dan dapat dia
 3. "Transaksi tersimpan lengkap dan stok berkurang."
 4. "Harga disimpan sebagai snapshot, sehingga perubahan harga tidak mengubah transaksi lama."
 
-[![alt text](record.mp4)](record.mp4)
+![alt text](<record.mp4>)
 
 **Link video 1:** `GANTI_DENGAN_LINK_VIDEO_1`
 
@@ -232,7 +232,7 @@ Dengan event ini, setiap perubahan stok dan harga tercatat di logs dan dapat dia
 3. "Blok penjualan asli tidak diubah, agar rantai hash tetap valid. Status terkini ada di mapping."
 4. "Refund kedua di-revert oleh `require` di dalam kontrak, bukan oleh pengecekan di luar kontrak."
 
-[![alt text](refund.mp4)](refund.mp4)
+![alt text](<refund.mp4>)
 
 **Link video 2:** `GANTI_DENGAN_LINK_VIDEO_2`
 
