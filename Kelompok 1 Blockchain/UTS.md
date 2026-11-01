@@ -232,7 +232,7 @@ Dengan event ini, setiap perubahan stok dan harga tercatat di logs dan dapat dia
 3. "Blok penjualan asli tidak diubah, agar rantai hash tetap valid. Status terkini ada di mapping."
 4. "Refund kedua di-revert oleh `require` di dalam kontrak, bukan oleh pengecekan di luar kontrak."
 
-![alt text](<refund.mp4>)
+[![alt text](<refund.mp4>)](https://github.com/user-attachments/assets/aec9785f-a26e-4303-b998-f0664a704243)
 
 **Link video 2:** `GANTI_DENGAN_LINK_VIDEO_2`
 
