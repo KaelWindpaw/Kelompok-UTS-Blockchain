@@ -171,7 +171,7 @@ Dengan event ini, setiap perubahan stok dan harga tercatat di logs dan dapat dia
 3. "Transaksi tersimpan lengkap dan stok berkurang."
 4. "Harga disimpan sebagai snapshot, sehingga perubahan harga tidak mengubah transaksi lama."
 
-![alt text](<record.mp4>)
+[![alt text](<record.mp4>)](https://github.com/user-attachments/assets/439ef8aa-a66d-4acb-a711-20c757f7e10b)
 
 **Link video 1:** `GANTI_DENGAN_LINK_VIDEO_1`
 
