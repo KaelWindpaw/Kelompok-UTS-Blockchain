@@ -173,8 +173,6 @@ Dengan event ini, setiap perubahan stok dan harga tercatat di logs dan dapat dia
 
 [![alt text](<record.mp4>)](https://github.com/user-attachments/assets/439ef8aa-a66d-4acb-a711-20c757f7e10b)
 
-**Link video 1:** `GANTI_DENGAN_LINK_VIDEO_1`
-
 ---
 
 ### 3.2. Fungsi Refund
@@ -233,8 +231,6 @@ Dengan event ini, setiap perubahan stok dan harga tercatat di logs dan dapat dia
 4. "Refund kedua di-revert oleh `require` di dalam kontrak, bukan oleh pengecekan di luar kontrak."
 
 [![alt text](<refund.mp4>)](https://github.com/user-attachments/assets/aec9785f-a26e-4303-b998-f0664a704243)
-
-**Link video 2:** `GANTI_DENGAN_LINK_VIDEO_2`
 
 ## 4. Analisis Keamanan — Temuan yang Telah Ditindaklanjuti
 
