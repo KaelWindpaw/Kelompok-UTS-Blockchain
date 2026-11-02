@@ -1,17 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-/// @title ComLedger: Sistem Buku Besar Penjualan Toko Komputer Berbasis Blockchain
-/// @notice Buku besar penjualan toko komputer dengan rantai blok berhash (tamper-evident).
 contract ComLedger {
     // =====================================================================
     // ENUM
     // =====================================================================
     enum Category { Motherboard, CPU, RAM, GPU, PSU, Storage, Other }
     enum Role { None, Cashier, Admin }
-
-    /// @notice [REVISI 1.1] Status transaksi penjualan.
-    /// Dipakai pada struct Sale, fungsi recordSale, refundSale, dan mapping statusTransaksi.
     enum StatusTransaksi { Berhasil, Direfund }
 
     // =====================================================================
