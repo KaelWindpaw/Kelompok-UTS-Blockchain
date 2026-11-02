@@ -29,8 +29,6 @@ contract ComLedger {
         string location;
     }
 
-    /// @dev [REVISI 1.2] unitPrice & accessoryPrice adalah snapshot harga PADA SAAT transaksi.
-    /// total = (unitPrice + accessoryPrice) * quantity. Waktu transaksi tersimpan di LedgerBlock.timestamp.
     struct Sale {
         string buyer; uint256 productId; string productName;
         uint256 quantity; string accessories;
@@ -54,8 +52,6 @@ contract ComLedger {
     mapping(address => Staff) public staffs;                 // mapping ber-key address
     mapping(uint256 => Product) public products;
     mapping(uint256 => Accessory) public accessories;
-    /// @notice [REVISI 1.3] Status terkini tiap transaksi (indeks blok). Blok asli di chain tidak
-    /// diubah (agar hash tetap valid); status terkini disimpan di sini.
     mapping(uint256 => StatusTransaksi) public statusTransaksi;
     uint256 public productCount;
     uint256 public accessoryCount;
@@ -72,9 +68,7 @@ contract ComLedger {
     event StaffUpdated(address indexed account, string name, Role role, bool active);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    /// @notice [REVISI 1.2] Di-emit saat penjualan tercatat.
     event SaleRecorded(uint256 indexed transactionId, uint256 indexed productId, uint256 quantity, uint256 total);
-    /// @notice [REVISI 1.3] Di-emit saat penjualan direfund (id transaksi asli, id blok refund, pemanggil).
     event SaleRefunded(uint256 indexed originalBlock, uint256 indexed refundBlock, address indexed by);
 
     /// @notice [PENGUAT 1.P1] Perubahan harga & status produk tercatat di logs untuk audit.
@@ -125,8 +119,7 @@ contract ComLedger {
     function addAccessory(string calldata name, uint256 price)
         external onlyOwner returns (uint256) { return _addAccessory(name, price); }
 
-    /// @notice Ubah harga produk. Hanya owner. Meng-emit PriceChanged. [PENGUAT 1.P1]
-    /// @dev Catatan penjualan lama TIDAK berubah karena harga disimpan sebagai snapshot di Sale.
+
     function setProductPrice(uint256 id, uint256 price) external onlyOwner {
         require(_validProduct(id) && price > 0, "Input tidak valid");
         uint256 oldPrice = products[id].price;
@@ -134,7 +127,6 @@ contract ComLedger {
         emit PriceChanged(id, oldPrice, price, msg.sender);
     }
 
-    /// @notice Aktif/nonaktifkan produk. Hanya owner. Meng-emit ProductActiveChanged. [PENGUAT 1.P1]
     function setProductActive(uint256 id, bool active) external onlyOwner {
         require(_validProduct(id), "Produk tidak ditemukan");
         products[id].active = active;
@@ -161,7 +153,6 @@ contract ComLedger {
     // STAFF
     // =====================================================================
 
-    /// @notice Tambah stok produk. Hanya staff aktif. Meng-emit Restocked. [PENGUAT 1.P1]
     function restock(uint256 id, uint256 amount) external onlyStaff {
         require(_validProduct(id), "Produk tidak ditemukan");
         require(amount > 0, "Jumlah harus lebih dari nol");
@@ -169,11 +160,7 @@ contract ComLedger {
         emit Restocked(id, amount, products[id].stock);
     }
 
-    /// @notice [REVISI 1.2] Catat penjualan secara lengkap.
-    /// @dev Hanya staff aktif (onlyStaff). Mencatat produk, jumlah, harga satuan saat transaksi (snapshot),
-    /// total harga, pencatat (msg.sender), waktu (block.timestamp pada LedgerBlock), dan status Berhasil.
-    /// Mengurangi stok. Meng-emit BlockAdded (dari _appendBlock) dan SaleRecorded.
-    /// @return transactionId indeks blok transaksi (dipakai juga sebagai id untuk refund).
+    
     function recordSale(SaleInput calldata input) external onlyStaff returns (uint256 transactionId) {
         require(bytes(input.buyer).length > 0, "Nama pembeli wajib diisi");
         require(bytes(input.location).length > 0, "Lokasi wajib diisi");
@@ -212,17 +199,12 @@ contract ComLedger {
     // REFUND
     // =====================================================================
 
-    /// @notice [REVISI 1.3] Refund transaksi penjualan.
-    /// @dev Hanya owner (onlyOwner). Status transaksi menjadi Direfund, stok dikembalikan,
-    /// blok refund dicatat ke ledger, dan SaleRefunded di-emit.
-    /// Anti refund-ganda: require status masih Berhasil; panggilan kedua pada transaksi yang sama revert.
     function refundSale(uint256 blockIndex) external onlyOwner returns (uint256 refundIndex) {
         require(blockIndex > 1 && blockIndex <= chain.length, "Transaksi tidak ditemukan");
         Sale memory s = chain[blockIndex - 1].sale;
         require(s.status == StatusTransaksi.Berhasil, "Bukan transaksi penjualan");
         require(statusTransaksi[blockIndex] == StatusTransaksi.Berhasil, "Transaksi sudah direfund");
 
-        // Effects: ubah status SEBELUM interaksi lain
         statusTransaksi[blockIndex] = StatusTransaksi.Direfund;
 
         Product storage p = products[s.productId];
